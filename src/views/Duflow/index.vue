@@ -31,7 +31,7 @@
 		.overview
 			h3 Overview
 			.circular-flame-chart
-				.circle
+				// .circle
 		.projects
 			h3 Projects
 			.table
@@ -99,13 +99,16 @@ export default {
 		.overview
 			// h3
 			.circular-flame-chart
-				$size = 300px
+				$size = 370px
 				width $size
 				height $size
 				background-color black
 				display: flex
 				justify-content center
 				align-items center
+				background url('./overview-1.png')
+				background-repeat no-repeat
+				background-size cover
 				.circle
 					width: 80%
 					height: 80%

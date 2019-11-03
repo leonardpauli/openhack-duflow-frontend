@@ -12,46 +12,66 @@ const demoViewData = {
 			title: "ROOT",
 			// eg. sector->subsector->country, country.sizeValue =
 			// 	SectorAid{recipient = country, sector = subsector}.amount
-			subnodes: [{
-				sizeValue: null,
+			subnodes: [{ //root 1: who_sanittot 	*epi_watsup : "Access to Drinking Water"  - 39
+				sizeValue: 13947.39613,
 				hue: 0.4,
-				title: "Education",
+				title: "Health", // from pdf
 				subnodes: [{
-					sizeValue: null,
-					hue: 0.7,
-					title: "School Admin",
+					sizeValue: 13947.39613,
+					hue: 0.6,
+					title: "Total population using basic sanitation services (%)", // from pdf
 					subnodes: [],
 				}, {
-					sizeValue: null,
+					sizeValue: 13947.39613,
 					hue: 0.11,
-					title: "Mosquitooos",
+					title: "Water and Sanitation", // from oecd
 					subnodes: [{
-						sizeValue: 34,
+						sizeValue: 2599.345,
 						hue: 0.11,
-						title: "Arabiemirati",
+						title: "Afghanistan",
 						subnodes: [],
 					}, {
-						sizeValue: 57,
+						sizeValue: 3230.661,
 						hue: 0.11,
-						title: "Sweeed",
+						title: "Yemen",
 						subnodes: [],
 					}, {
-						sizeValue: 38,
+						sizeValue: 8117.391,
 						hue: 0.11,
-						title: "Germannyyyyd",
+						title: "Zambia",
 						subnodes: [],
 					}],
 				}],
-			}, {
-				sizeValue: null,
-				hue: 0.6,
-				title: "Health",
-				subnodes: [],
-			}, {
-				sizeValue: null,
-				hue: 0.8,
-				title: "Business",
-				subnodes: [],
+			}, { // root 2: bl_asyf , obs. multiple categpries, update: bl_asyfm
+				sizeValue: 20225.56,
+				hue: 0.5,
+				title: "Education",
+				subnodes: [{
+					sizeValue: 20225.56,
+					hue: 0.7,
+					title: "Average Schooling Years, Female and Male",
+					subnodes: [],
+				}, {
+					sizeValue: 20225.56,
+					hue: 0.12,
+					title: "Education total", // from oecd
+					subnodes: [{
+						sizeValue: 12719.19,
+						hue: 0.12,
+						title: "Afghanistan",
+						subnodes: [],
+					}, {
+						sizeValue: 4101.971,
+						hue: 0.12,
+						title: "Yemen",
+						subnodes: [],
+					}, {
+						sizeValue: 3404.393,
+						hue: 0.12,
+						title: "Zambia",
+						subnodes: [],
+					}],
+				}],
 			}],
 		}
 	},
@@ -64,30 +84,39 @@ const demoViewData = {
 			'Recommended Strategy',
 			'Impact Efficiency Score',
 		],
-		list: [{
-			id: 0,
-			country: "Arabiiis",
-			sector: "Education - Mosquitooos",
-			goal: "cakes",
+		list: [{ // money amount: 2599.345 
+			country: "Afghanistan",
+			sector: "Health - Water and Sanitation",
+			goal: "Total population using basic sanitation services (%)",
 			progress: {
-				controlGroup: [2.3, 2.5, 2.2, 3.11],
-				controlGroupNot: [2.3, 2.34, 2.28, 2.33],
+				controlGroup: [2.3, 1.5, 1.2, 1.11],
+				controlGroupNot: [2.3, 2.34, 2.28, 2.37],
 				__diff: [],
 			},
 			recommendedStrategy: "Increase",
 			impactEfficiencyIndicator: 1.2,
-		}, {
-			id: 1,
-			country: "Sweeed",
-			sector: "Education - Mosquitooos",
-			goal: "cakes",
+		}, { // amount = 3230.661
+			country: "Yemen",
+			sector: "Health - Water and Sanitation",
+			goal: "Total population using basic sanitation services (%)",
 			progress: {
-				controlGroup: [2.3, 2.5, 2.2, 3.11],
-				controlGroupNot: [2.3, 2.34, 2.28, 2.33],
+				controlGroup: [2.7, 0.5, 0.2, 0.11],
+				controlGroupNot: [2.7, 3.34, 4.28, 5.33],
 				__diff: [],
 			},
 			recommendedStrategy: "Increase",
-			impactEfficiencyIndicator: 1.1,
+			impactEfficiencyIndicator: 2.7,
+		}, { // 8117.391
+			country: "Zambia",
+			sector: "Health - Water and Sanitation",
+			goal: "Total population using basic sanitation services (%)",
+			progress: {
+				controlGroup: [2.1, 2.7, 2.2, 2.11],
+				controlGroupNot: [2.1, 2.1, 2.1, 2.1],
+				__diff: [],
+			},
+			recommendedStrategy: "Decrease", // mockup suggestions
+			impactEfficiencyIndicator: 0.2,  // mockup values
 		}],
 	},
 }
