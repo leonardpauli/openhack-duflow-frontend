@@ -41,11 +41,25 @@
 					.td.country {{row.country}}
 					.td.sector {{row.sector}}
 					.td.goal {{row.goal}}
-					.td.progress n/a
+					.td.progress
 						// {{row.progress}}
+						svg#mybox(width='100%', height='50px', viewBox='0 0 100 100', fill='none', preserveAspectRatio="none")
+							mask#mask0(mask-type='alpha', maskUnits='userSpaceOnUse', x='0', y='0', width='100', height='100')
+								rect(width='100', height='100', fill='url(#paint0_linear)')
+							g(mask='url(#mask0)')
+								path(d='M1 36.2881L17.8863 0L36.229 36.2881H60.4266L83.1137 100L100 0', stroke='#BABABA')
+								path(d='M0 72.3684H16.8459L35.6844 0L58.6959 100L81.3739 25L100 72.3684', stroke='#50B6CC')
+								path(d='M0 32.9824L18.1208 100L35.2349 70L60.0671 0L82.8859 100L100 86.6667', stroke='url(#paint1_linear)')
+							defs
+								linearGradient#paint0_linear(x1='50', y1='50', x2='0', y2='50', gradientUnits='userSpaceOnUse')
+									stop(stop-color='#C4C4C4')
+									stop(offset='1', stop-color='#C4C4C4', stop-opacity='0')
+								linearGradient#paint1_linear(x1='50', y1='0', x2='50', y2='100', gradientUnits='userSpaceOnUse')
+									stop(stop-color='#00EF0A')
+									stop(offset='1', stop-color='#FF5C00')
 					.td.strategy {{row.recommendedStrategy}}
 					.td.score {{row.impactEfficiencyIndicator}}
-					
+			img(src="./legend.png", width="1000px", style="margin-top: 50px")
 
 </template>
 <script>
