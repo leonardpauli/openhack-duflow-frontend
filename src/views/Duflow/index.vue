@@ -31,7 +31,7 @@
 		.overview
 			h3 Overview
 			.circular-flame-chart
-				// .circle
+				.circle
 		.projects
 			h3 Projects
 			.table
@@ -66,14 +66,17 @@
 import demoViewData from './demoViewData.js'
 
 
-const valuesToPath = values=> {
+const valuesToPath = (values, isFactor=false)=> {
 	const len = values.length
 
-	const max = values.reduce((a, b)=> Math.max(a, b))
-	const min = values.reduce((a, b)=> Math.min(a, b))
+	const _max = values.reduce((a, b)=> Math.max(a, b))
+	const _min = values.reduce((a, b)=> Math.min(a, b))
+	const span = Math.max(Math.abs(1-_max), Math.abs(1-_min))
+	const max = isFactor ? 1+span : _max
+	const min = isFactor ? 1-span : _min
 	
 	const norm = values.map(v=> (v-min)/(max-min) || 0)
-	const d = 'M'+norm.map((y, i)=> [i/(len-1), y]).map(([x, y])=> `${x*100} ${y*100}`).join(' L')
+	const d = 'M'+norm.map((y, i)=> [i/(len-1), 1-y]).map(([x, y])=> `${x*100} ${y*100}`).join(' L')
 	return d
 }
 
@@ -95,7 +98,7 @@ export default {
 				return diffFactor
 			})
 
-			return valuesToPath(dvs)
+			return valuesToPath(dvs, true)
 		}
 	}
 }
@@ -122,6 +125,7 @@ export default {
 		& > *:not(:last-child)
 			margin-right: 50px
 		.perspective
+			flex-shrink 0
 			h3
 				margin-bottom: 10px
 
@@ -153,10 +157,12 @@ export default {
 				background-repeat no-repeat
 				background-size cover
 				.circle
-					width: 80%
-					height: 80%
-					background-color green
+					$size = 17%
+					width $size
+					height $size
+					background-color black
 					border-radius: 1000px
+					transform translateX(12px) translateY(-7px)
 		.projects
 			// h3
 			.table
