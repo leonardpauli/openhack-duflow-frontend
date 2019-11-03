@@ -47,9 +47,9 @@
 							mask#mask0(mask-type='alpha', maskUnits='userSpaceOnUse', x='0', y='0', width='100', height='100')
 								rect(width='100', height='100', fill='url(#paint0_linear)')
 							g(mask='url(#mask0)')
-								path(d='M1 36.2881L17.8863 0L36.229 36.2881H60.4266L83.1137 100L100 0', stroke='#BABABA')
-								path(d='M0 72.3684H16.8459L35.6844 0L58.6959 100L81.3739 25L100 72.3684', stroke='#50B6CC')
-								path(d='M0 32.9824L18.1208 100L35.2349 70L60.0671 0L82.8859 100L100 86.6667', stroke='url(#paint1_linear)')
+								path(:d='pathDFromData(row.progress.controlGroup)', stroke='#BABABA')
+								path(:d='pathDFromData(row.progress.controlGroupNot)', stroke='#50B6CC')
+								path(:d='pathDFromDataDiff(row.progress)', stroke='url(#paint1_linear)')
 							defs
 								linearGradient#paint0_linear(x1='50', y1='50', x2='0', y2='50', gradientUnits='userSpaceOnUse')
 									stop(stop-color='#C4C4C4')
@@ -65,10 +65,39 @@
 <script>
 import demoViewData from './demoViewData.js'
 
+
+const valuesToPath = values=> {
+	const len = values.length
+
+	const max = values.reduce((a, b)=> Math.max(a, b))
+	const min = values.reduce((a, b)=> Math.min(a, b))
+	
+	const norm = values.map(v=> (v-min)/(max-min) || 0)
+	const d = 'M'+norm.map((y, i)=> [i/(len-1), y]).map(([x, y])=> `${x*100} ${y*100}`).join(' L')
+	return d
+}
+
 export default {
 	data: ()=> ({
 		...demoViewData,
 	}),
+	methods: {
+		pathDFromData (values) {
+			return valuesToPath(values)
+		},
+		pathDFromDataDiff (progress) {
+			const cgvs = progress.controlGroup
+			const cnvs = progress.controlGroupNot
+
+			const dvs = cgvs.map((cgv, i)=> {
+				const cnv = cnvs[i]
+				const diffFactor = cnv/cgv
+				return diffFactor
+			})
+
+			return valuesToPath(dvs)
+		}
+	}
 }
 </script>
 <style lang="stylus" scoped>
