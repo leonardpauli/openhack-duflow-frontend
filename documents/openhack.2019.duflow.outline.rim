@@ -1,0 +1,119 @@
+# openhack.2019.duflow.outline
+' created by Leonard Pauli, 3 nov 2019
+
+
+App
+
+	view:
+		- Columns
+			- perspective
+			- overview is FlameChart{is circular} with filteredProjects + ...
+			- table with List of filteredProjects
+
+	filteredProjects: project | filter ...(perspective)
+	projects is many CountryProject
+		country is Country
+		sector is Sector
+		goal is Goal
+		estimated-people-affected-amount is Number // by sida
+		recommendedStrategy is Enum(Increase, KeepSame, Decrease): ...
+		impact-efficiency-indicator is Number: ...
+		--
+		progress:
+			- graph of CountryProjectResult{is control-group}
+			- graph of CountryProjectResult{isn't control-group}
+			- graph of diff
+		' json
+
+			{country: id, sector: id, goal: id}
+			{country: id, sector: id, goal: id}
+			{country: id, sector: id, goal: id}
+			{country: id, sector: id, goal: id}
+			{country: id, sector: id, goal: id}
+			{country: id, sector: id, goal: id}
+			--
+			country: [id, id, id, id]
+			->
+				{id, name: "asdfasdf", corruptionIndicator: 1241}
+				{id, name: "asdfasdf", corruptionIndicator: 1241}
+				{id, name: "asdfasdf", corruptionIndicator: 1241}
+				{id, name: "asdfasdf", corruptionIndicator: 1241}
+
+	ViewData
+		perspective:
+			levels: [["Sectors", "Subsectors", "Countries"], ["Sectors", "Countries"]]
+			countryColorOptions: ["By impact efficiency", "By corruptness"]
+			// segmentsToInclude: []
+			// segmentsToExclude: []
+		overview:
+			root is Node
+				sizeValue is Number{any} or Empty
+					if Empty: .subnodes |> .sizeValue | sum
+				hue is Number{0..1}
+					// sector.index / sectors.len * 0.8
+				title is String
+				subnodes: many Node
+				// relativeSize: sizeValue / (root |> .sizeValue | sum)
+			' root:
+				"Sectors,Subsectors,Countries;By corruptness" is Node
+				"Sectors,Subsectors,Countries;By impact efficiency" is Node
+		table:
+			list is many Row
+				country is String
+				sector is String
+				goal is String
+				progress
+					controlGroup is TimeSeries is many Number
+					controlGroupNot is TimeSeries
+					// diff is TimeSeries
+				recommendedStrategy is String // Increase, Keep same, Decrease
+				impactEfficiencyIndicator is Number
+
+
+
+	datatypes:
+		Goal
+			id
+			name
+			// timeseries is many (Country, many Number)
+			category is many GoalCategory is String
+
+		Sector
+			parent is Sector or Empty
+			name
+			code
+
+		Country
+			corruptionIndicator is Number // baysian
+			name
+
+
+
+		CountrySector
+			country is Country
+			sector is Sector
+			corruptionIndicator is Number // tmp? how to figure out
+
+
+		SectorAid
+			donor is Donor is Enum:
+				- Country
+				- OtherDonor
+					name
+			recipient is Country
+			sector is Sector
+			amount is Number
+			timestamp
+
+
+		CountryProjectAid // provided by sida
+			project is CountryProject
+			amount is Number
+			timestamp
+
+		CountryProjectResult
+			is-control-group is Boolean
+			project is Project
+			value is Number
+			timestamp
+
